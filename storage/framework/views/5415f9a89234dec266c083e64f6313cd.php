@@ -75,6 +75,9 @@
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/meanmenu.min.css')); ?>" type="text/css" media="all">
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/icofont.min.css')); ?>" type="text/css" media="all">
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/flaticon.css')); ?>" type="text/css" media="all">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/settings.css')); ?>" type="text/css" media="all">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/layers.css')); ?>" type="text/css" media="all">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/navigation.css')); ?>" type="text/css" media="all">
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/style.css')); ?>" type="text/css" media="all">
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/responsive.css')); ?>" type="text/css" media="all">
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/theme-dark.css')); ?>" type="text/css" media="all">
@@ -118,6 +121,17 @@
     <script src="<?php echo e(asset('assets/js/owl.carousel.min.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/js/slick.min.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/js/wow.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/js/jquery.themepunch.tools.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/js/jquery.themepunch.revolution.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/js/extensions/revolution.extension.actions.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/js/extensions/revolution.extension.carousel.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/js/extensions/revolution.extension.kenburn.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/js/extensions/revolution.extension.layeranimation.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/js/extensions/revolution.extension.migration.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/js/extensions/revolution.extension.navigation.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/js/extensions/revolution.extension.parallax.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/js/extensions/revolution.extension.slideanims.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/js/extensions/revolution.extension.video.min.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/js/max-kebab.js')); ?>"></script>
     <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>

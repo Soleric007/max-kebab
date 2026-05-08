@@ -7,46 +7,154 @@
 
 @section('content')
     <div class="header-bg">
-        <div class="container-fluid">
-            <div class="header-container position-relative p-tb-100">
-                <div class="header-page-shape">
-                    <div class="header-page-shape-item wow animate__rollIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="{{ asset('assets/images/header-shape-1.png') }}" alt="shape">
-                    </div>
-                    <div class="header-page-shape-item wow animate__slideInDown" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="{{ asset('assets/images/header-shape-2.png') }}" alt="shape">
-                    </div>
-                    <div class="header-page-shape-item wow animate__slideInRight" data-wow-duration="1.5s" data-wow-delay="0.5s">
-                        <img src="{{ asset('assets/images/header-shape-3.png') }}" alt="shape">
-                    </div>
-                    <div class="header-page-shape-item wow animate__rollIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <img src="{{ asset('assets/images/header-shape-1.png') }}" alt="shape">
-                    </div>
-                </div>
-                <div class="header-carousel owl-carousel owl-theme">
-                    @foreach ($heroSlides as $slide)
-                        <div class="item">
-                            <div class="row align-items-center justify-content-center">
-                                <div class="col-sm-12 col-md-12 col-lg-6">
-                                    <div class="header-carousel-text max-555 mx-auto me-lg-0 text-center text-lg-start">
-                                        <h1 class="color-white">{{ $slide['headline'] }}</h1>
-                                        <p>{{ $slide['subtext'] }}</p>
-                                        <div class="header-carousel-action">
-                                            <a href="{{ route('shop.show', $slide['slug']) }}" class="btn">
-                                                Order Now <i class="flaticon-shopping-cart-black-shape"></i>
-                                            </a>
-                                            <p class="header-product-price color-white">{{ $slide['price'] }} <del>{{ $slide['compare_price'] }}</del></p>
-                                        </div>
-                                    </div>
+        <div class="container">
+            <div class="rev_slider_wrapper">
+                <div id="rev_slider_1" class="rev_slider" data-version="5.4.5" style="display:none">
+                    <ul>
+                        @foreach ($heroSlides as $slide)
+                            <li data-index="rs-{{ $loop->iteration }}" data-transition="fade" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default" data-easeout="default" data-masterspeed="300" data-rotate="0" data-saveperformance="off" data-title="{{ $slide['headline'] }}">
+                                <div class="tp-caption LandingPage-Title tp-resizeme"
+                                    id="slide-{{ $loop->iteration }}-layer-1"
+                                    data-x="['left','center','center','center']" data-hoffset="['0','0','0','0']"
+                                    data-y="['top','top','top','top']" data-voffset="['170','72','92','70']"
+                                    data-fontsize="['60','56','44','32']"
+                                    data-lineheight="['78','72','56','42']"
+                                    data-letterspacing="['2','2','1','1']"
+                                    data-width="['620','620','520','320']"
+                                    data-type="text"
+                                    data-responsive_offset="on"
+                                    data-frames='[{"from":"x:-50px;opacity:0;","speed":1500,"to":"o:1;","delay":500,"ease":"Power3.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                                    data-textAlign="['left','center','center','center']"
+                                    data-fontweight="400"
+                                    style="z-index: 5; white-space: normal;">{{ $slide['headline'] }}</div>
+
+                                <div class="tp-caption LandingPage-SubTitle tp-resizeme"
+                                    id="slide-{{ $loop->iteration }}-layer-2"
+                                    data-x="['left','center','center','center']" data-hoffset="['0','0','0','0']"
+                                    data-y="['top','top','top','top']" data-voffset="['355','255','225','162']"
+                                    data-fontsize="['25','24','18','17']"
+                                    data-lineheight="['34','32','26','26']"
+                                    data-width="['470','470','430','320']"
+                                    data-fontweight="500"
+                                    data-type="text"
+                                    data-responsive_offset="on"
+                                    data-frames='[{"from":"x:-50px;opacity:0;","speed":1500,"to":"o:1;","delay":700,"ease":"Power3.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                                    data-textAlign="['left','center','center','center']"
+                                    style="z-index: 7; white-space: normal; font-style: normal;">{{ $slide['subtext'] }}</div>
+
+                                <div class="tp-caption LandingPage-SubTitle tp-resizeme"
+                                    id="slide-{{ $loop->iteration }}-layer-3"
+                                    data-x="['left','center','center','center']" data-hoffset="['0','0','0','0']"
+                                    data-y="['top','top','top','top']" data-voffset="['430','335','295','225']"
+                                    data-fontsize="['20','20','17','17']"
+                                    data-lineheight="['30','30','25','25']"
+                                    data-width="['420','420','420','320']"
+                                    data-height="none"
+                                    data-whitespace="normal"
+                                    data-type="text"
+                                    data-responsive_offset="on"
+                                    data-frames='[{"from":"x:-50px;opacity:0;","speed":1500,"to":"o:1;","delay":900,"ease":"Power3.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                                    data-textAlign="['left','center','center','center']"
+                                    style="z-index: 7; white-space: normal; font-style: normal; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; max-width: 420px;">
+                                    <a href="{{ route('shop.show', $slide['slug']) }}" class="btn">Order Now <i class="flaticon-shopping-cart-black-shape"></i></a>
+                                    <p class="header-product-price color-white">
+                                        {{ $slide['price'] }}
+                                        @if (! empty($slide['compare_price']))
+                                            <del>{{ $slide['compare_price'] }}</del>
+                                        @endif
+                                    </p>
                                 </div>
-                                <div class="col-sm-12 col-md-12 col-lg-6">
-                                    <div class="header-carousel-image wow animate__zoomIn" data-wow-duration="1s" data-wow-delay="0.5s">
-                                        <img src="{{ asset($slide['image']) }}" alt="{{ $slide['headline'] }}">
-                                    </div>
+
+                                <div class="tp-caption tp-resizeme"
+                                    id="slide-{{ $loop->iteration }}-layer-4"
+                                    data-x="['right','center','center','center']" data-hoffset="['0','0','0','0']"
+                                    data-y="['top','top','top','top']" data-voffset="['87','385','372','282']"
+                                    data-type="image"
+                                    data-responsive_offset="on"
+                                    data-frames='[{"from":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.75;sY:0.75;skX:0;skY:0;opacity:0;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                                    style="z-index: 8; border-width:0px;">
+                                    <img src="{{ asset($slide['image']) }}" alt="{{ $slide['headline'] }}" data-ww="['590px','520px','480px','330px']" data-hh="['560px','500px','430px','280px']" width="590" height="560" data-no-retina>
                                 </div>
-                            </div>
-                        </div>
-                    @endforeach
+
+                                <div class="tp-caption tp-resizeme"
+                                    id="slide-{{ $loop->iteration }}-layer-5"
+                                    data-x="['left','left','left','left']"
+                                    data-y="['top','top','top','top']" data-voffset="['30','30','30','30']"
+                                    data-type="image"
+                                    data-responsive_offset="on"
+                                    data-frames='[{"from":"x:-50px;rZ: -120deg;opacity:0;","speed":1500,"to":"o:1;","delay":700,"ease":"Power3.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                                    style="z-index: 8; border-width:0px;">
+                                    <img src="{{ asset('assets/images/header-shape-1.png') }}" alt="shape" data-ww="['42px','42px','42px','42px']" data-hh="['43px','43px','43px','43px']" width="42" height="43" data-no-retina>
+                                </div>
+
+                                <div class="tp-caption tp-resizeme"
+                                    id="slide-{{ $loop->iteration }}-layer-6"
+                                    data-x="['center','center','center','center']"
+                                    data-y="['top','top','top','top']" data-voffset="['50','0','12','0']"
+                                    data-type="image"
+                                    data-responsive_offset="on"
+                                    data-frames='[{"from":"y:-50px;opacity:0;","speed":1500,"to":"o:1;","delay":700,"ease":"Power3.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                                    style="z-index: 8; border-width:0px;">
+                                    <img src="{{ asset('assets/images/header-shape-2.png') }}" alt="shape" data-ww="['90px','90px','90px','90px']" data-hh="['81px','81px','81px','81px']" width="90" height="81" data-no-retina>
+                                </div>
+
+                                <div class="tp-caption tp-resizeme"
+                                    id="slide-{{ $loop->iteration }}-layer-7"
+                                    data-x="['right','right','right','right']"
+                                    data-y="['top','top','top','top']" data-voffset="['-45','-45','-45','-75']"
+                                    data-type="image"
+                                    data-responsive_offset="on"
+                                    data-frames='[{"from":"x:50px;opacity:0;","speed":1500,"to":"o:1;","delay":700,"ease":"Power3.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                                    style="z-index: 8; border-width:0px;">
+                                    <img src="{{ asset('assets/images/header-shape-3.png') }}" alt="shape" data-ww="['110px','110px','110px','110px']" data-hh="['143px','143px','143px','143px']" width="110" height="143" data-no-retina>
+                                </div>
+
+                                <div class="tp-caption tp-resizeme"
+                                    id="slide-{{ $loop->iteration }}-layer-8"
+                                    data-x="['right','right','right','right']"
+                                    data-y="['top','top','top','top']" data-voffset="['150','150','150','150']"
+                                    data-type="image"
+                                    data-responsive_offset="on"
+                                    data-frames='[{"from":"x:-50px;rZ: -120deg;opacity:0;","speed":1500,"to":"o:1;","delay":700,"ease":"Power3.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                                    style="z-index: 8; border-width:0px;">
+                                    <img src="{{ asset('assets/images/header-shape-1.png') }}" alt="shape" data-ww="['42px','42px','42px','42px']" data-hh="['43px','43px','43px','43px']" width="42" height="43" data-no-retina>
+                                </div>
+
+                                <div class="tp-caption tp-resizeme"
+                                    id="slide-{{ $loop->iteration }}-layer-9"
+                                    data-x="['center','center','center','center']"
+                                    data-y="['center','center','center','center']" data-voffset="['150','150','150','150']"
+                                    data-type="image"
+                                    data-responsive_offset="on"
+                                    data-frames='[{"from":"x:50px;rZ: -120deg;opacity:0;","speed":1500,"to":"o:1;","delay":700,"ease":"Power3.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                                    style="z-index: 8; border-width:0px;">
+                                    <img src="{{ asset('assets/images/header-shape-1.png') }}" alt="shape" data-ww="['42px','42px','42px','42px']" data-hh="['43px','43px','43px','43px']" width="42" height="43" data-no-retina>
+                                </div>
+
+                                <div class="tp-caption tp-resizeme"
+                                    id="slide-{{ $loop->iteration }}-layer-10"
+                                    data-x="['left','left','left','left']"
+                                    data-y="['bottom','bottom','bottom','bottom']"
+                                    data-type="image"
+                                    data-responsive_offset="on"
+                                    data-frames='[{"from":"y:50px;opacity:0;","speed":1500,"to":"o:1;","delay":700,"ease":"Power3.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                                    style="z-index: 8; border-width:0px;">
+                                    <img src="{{ asset('assets/images/header-shape-3.png') }}" alt="shape" data-ww="['110px','110px','110px','110px']" data-hh="['143px','143px','143px','143px']" width="110" height="143" data-no-retina>
+                                </div>
+
+                                <div class="tp-caption tp-resizeme"
+                                    id="slide-{{ $loop->iteration }}-layer-11"
+                                    data-x="['right','right','right','right']"
+                                    data-y="['bottom','bottom','bottom','bottom']"
+                                    data-type="image"
+                                    data-responsive_offset="on"
+                                    data-frames='[{"from":"y:50px;opacity:0;","speed":1500,"to":"o:1;","delay":700,"ease":"Power3.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
+                                    style="z-index: 8; border-width:0px;">
+                                    <img src="{{ asset('assets/images/header-shape-4.png') }}" alt="shape" data-ww="['318px','318px','318px','318px']" data-hh="['209px','209px','209px','209px']" width="318" height="209" data-no-retina>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         </div>

@@ -3,6 +3,7 @@
         <div class="mobile-nav">
             <a href="<?php echo e(route('home')); ?>" class="navbar-brand brand-logo-link">
                 <img src="<?php echo e(asset($brand['logo'] ?? 'assets/images/maxkebab.png')); ?>" alt="<?php echo e($brand['name']); ?> logo" class="brand-logo">
+                <span class="logo-text">MAX <span>KEBAB</span></span>
             </a>
             <div class="navbar-option mobile-navbar-option d-flex align-items-center">
                 <div class="navbar-option-item navbar-option-search">
@@ -67,6 +68,7 @@
                 <nav class="navbar navbar-expand-md navbar-light">
                     <a class="navbar-brand brand-logo-link" href="<?php echo e(route('home')); ?>">
                         <img src="<?php echo e(asset($brand['logo'] ?? 'assets/images/maxkebab.png')); ?>" alt="<?php echo e($brand['name']); ?> logo" class="brand-logo">
+                        <span class="logo-text">MAX <span>KEBAB</span></span>
                     </a>
                     <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto">

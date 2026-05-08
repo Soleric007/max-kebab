@@ -38,18 +38,28 @@ jQuery(function ($) {
         new WOW().init();
     }
 
-    if ($.fn.owlCarousel && $('.header-carousel').length) {
-        $('.header-carousel').owlCarousel({
-            loop: true,
-            margin: 0,
-            nav: false,
-            dots: true,
-            dotsEach: 1,
-            items: 1,
-            autoplay: true,
-            autoplayHoverPause: true,
-            autoplayTimeout: 4500,
-            smartSpeed: 1500,
+    if ($.fn.revolution !== undefined && $('#rev_slider_1').length) {
+        $('#rev_slider_1').show().revolution({
+            sliderLayout: 'auto',
+            delay: 2600,
+            onHoverStop: 'off',
+            responsiveLevels: [1240, 1024, 778, 480],
+            gridwidth: [1170, 1170, 778, 480],
+            gridheight: [800, 1020, 960, 760],
+            navigation: {
+                arrows: {
+                    enable: false,
+                },
+                bullets: {
+                    enable: true,
+                    style: 'ares',
+                    hide_onleave: false,
+                    v_align: 'bottom',
+                    h_offset: 0,
+                    space: 5,
+                    tmp: '',
+                },
+            },
         });
     }
 
