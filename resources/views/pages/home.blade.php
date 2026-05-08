@@ -16,11 +16,11 @@
                                 <div class="tp-caption LandingPage-Title tp-resizeme"
                                     id="slide-{{ $loop->iteration }}-layer-1"
                                     data-x="['left','center','center','center']" data-hoffset="['0','0','0','0']"
-                                    data-y="['top','top','top','top']" data-voffset="['170','72','92','70']"
-                                    data-fontsize="['60','56','44','32']"
-                                    data-lineheight="['78','72','56','42']"
+                                    data-y="['top','top','top','top']" data-voffset="['170','72','92','96']"
+                                    data-fontsize="['60','56','44','28']"
+                                    data-lineheight="['78','72','56','36']"
                                     data-letterspacing="['2','2','1','1']"
-                                    data-width="['620','620','520','320']"
+                                    data-width="['620','620','520','300']"
                                     data-type="text"
                                     data-responsive_offset="on"
                                     data-frames='[{"from":"x:-50px;opacity:0;","speed":1500,"to":"o:1;","delay":500,"ease":"Power3.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
@@ -31,10 +31,10 @@
                                 <div class="tp-caption LandingPage-SubTitle tp-resizeme"
                                     id="slide-{{ $loop->iteration }}-layer-2"
                                     data-x="['left','center','center','center']" data-hoffset="['0','0','0','0']"
-                                    data-y="['top','top','top','top']" data-voffset="['355','255','225','162']"
-                                    data-fontsize="['25','24','18','17']"
-                                    data-lineheight="['34','32','26','26']"
-                                    data-width="['470','470','430','320']"
+                                    data-y="['top','top','top','top']" data-voffset="['355','255','225','222']"
+                                    data-fontsize="['25','24','18','16']"
+                                    data-lineheight="['34','32','26','24']"
+                                    data-width="['470','470','430','290']"
                                     data-fontweight="500"
                                     data-type="text"
                                     data-responsive_offset="on"
@@ -42,13 +42,13 @@
                                     data-textAlign="['left','center','center','center']"
                                     style="z-index: 7; white-space: normal; font-style: normal;">{{ $slide['subtext'] }}</div>
 
-                                <div class="tp-caption LandingPage-SubTitle tp-resizeme"
+                                <div class="tp-caption LandingPage-SubTitle tp-resizeme home-hero-action-group"
                                     id="slide-{{ $loop->iteration }}-layer-3"
                                     data-x="['left','center','center','center']" data-hoffset="['0','0','0','0']"
-                                    data-y="['top','top','top','top']" data-voffset="['430','335','295','225']"
+                                    data-y="['top','top','top','top']" data-voffset="['430','335','295','302']"
                                     data-fontsize="['20','20','17','17']"
                                     data-lineheight="['30','30','25','25']"
-                                    data-width="['420','420','420','320']"
+                                    data-width="['420','420','420','300']"
                                     data-height="none"
                                     data-whitespace="normal"
                                     data-type="text"
@@ -68,12 +68,12 @@
                                 <div class="tp-caption tp-resizeme"
                                     id="slide-{{ $loop->iteration }}-layer-4"
                                     data-x="['right','center','center','center']" data-hoffset="['0','0','0','0']"
-                                    data-y="['top','top','top','top']" data-voffset="['87','385','372','282']"
+                                    data-y="['top','top','top','top']" data-voffset="['87','380','350','398']"
                                     data-type="image"
                                     data-responsive_offset="on"
                                     data-frames='[{"from":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.75;sY:0.75;skX:0;skY:0;opacity:0;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
                                     style="z-index: 8; border-width:0px;">
-                                    <img src="{{ asset($slide['image']) }}" alt="{{ $slide['headline'] }}" data-ww="['590px','520px','480px','330px']" data-hh="['560px','500px','430px','280px']" width="590" height="560" data-no-retina>
+                                    <img src="{{ asset($slide['image']) }}" alt="{{ $slide['headline'] }}" data-ww="['620px','560px','520px','360px']" data-hh="['585px','535px','470px','310px']" width="620" height="585" data-no-retina>
                                 </div>
 
                                 <div class="tp-caption tp-resizeme"
@@ -150,7 +150,7 @@
                                     data-responsive_offset="on"
                                     data-frames='[{"from":"y:50px;opacity:0;","speed":1500,"to":"o:1;","delay":700,"ease":"Power3.easeOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]'
                                     style="z-index: 8; border-width:0px;">
-                                    <img src="{{ asset('assets/images/header-shape-4.png') }}" alt="shape" data-ww="['318px','318px','318px','318px']" data-hh="['209px','209px','209px','209px']" width="318" height="209" data-no-retina>
+                                    <img src="{{ asset('assets/images/header-shape-4.png') }}" alt="shape" data-ww="['318px','300px','250px','210px']" data-hh="['209px','197px','164px','138px']" width="318" height="209" data-no-retina>
                                 </div>
                             </li>
                         @endforeach
@@ -178,15 +178,15 @@
                     <div class="about-image-grid">
                         <div class="about-image-grid-item">
                             <div class="about-image-grid-inner mb-30">
-                                <img src="{{ asset('assets/images/welcome-image-1.jpg') }}" alt="restaurant interior">
+                                <img src="{{ asset('assets/images/welcome/welcome-image-1.jpg') }}" alt="restaurant interior">
                             </div>
                             <div class="about-image-grid-inner mb-30">
-                                <img src="{{ asset('assets/images/welcome-image-2.jpg') }}" alt="fresh food preparation">
+                                <img src="{{ asset('assets/images/welcome/welcome-image-2.jpg') }}" alt="fresh food preparation">
                             </div>
                         </div>
                         <div class="about-image-grid-item">
                             <div class="about-image-grid-inner fluid-height">
-                                <img src="{{ asset('assets/images/welcome-image-3.jpg') }}" alt="shared dining table">
+                                <img src="{{ asset('assets/images/welcome/welcome-image-3.jpg') }}" alt="shared dining table">
                             </div>
                         </div>
                     </div>

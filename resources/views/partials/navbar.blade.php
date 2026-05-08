@@ -19,46 +19,11 @@
                         </form>
                     </div>
                 </div>
-                <div class="navbar-option-item navbar-option-dots mobile-hide">
-                    <button class="dropdown-toggle" type="button" id="mobileOptionDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="flaticon-menu-1"></i>
-                    </button>
-                    <div class="dropdown-menu mobile-action-menu" aria-labelledby="mobileOptionDropdown">
-                        <div class="navbar-option-item navbar-option-cart">
-                            <a href="{{ route('wishlist.index') }}" aria-label="Wishlist"><i class="flaticon-heart"></i></a>
-                            @if ($wishlistCount > 0)
-                                <span class="option-badge">{{ $wishlistCount }}</span>
-                            @endif
-                        </div>
-                        <div class="navbar-option-item navbar-option-cart">
-                            <a href="#" class="productCart" aria-label="Basket"><i class="flaticon-supermarket-basket"></i></a>
-                            @if ($cartCount > 0)
-                                <span class="option-badge">{{ $cartCount }}</span>
-                            @endif
-                        </div>
-                        <div class="navbar-option-item navbar-option-order">
-                            <a href="{{ route('shop.index') }}" class="btn">
-                                Order Now <i class="flaticon-shopping-cart-black-shape"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="navbar-option-item navbar-option-cart mobile-block">
-                    <a href="{{ route('wishlist.index') }}" aria-label="Wishlist"><i class="flaticon-heart"></i></a>
-                    @if ($wishlistCount > 0)
-                        <span class="option-badge">{{ $wishlistCount }}</span>
-                    @endif
-                </div>
-                <div class="navbar-option-item navbar-option-cart mobile-block">
-                    <a href="#" class="productCart" aria-label="Basket"><i class="flaticon-supermarket-basket"></i></a>
+                <div class="navbar-option-item navbar-option-cart">
+                    <a href="{{ route('cart.index') }}" aria-label="Basket"><i class="flaticon-supermarket-basket"></i></a>
                     @if ($cartCount > 0)
                         <span class="option-badge">{{ $cartCount }}</span>
                     @endif
-                </div>
-                <div class="navbar-option-item navbar-option-order mobile-block">
-                    <a href="{{ route('shop.index') }}" class="btn">
-                        <i class="flaticon-shopping-cart-black-shape"></i>
-                    </a>
                 </div>
             </div>
         </div>
@@ -86,6 +51,15 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact*') ? 'active' : '' }}">CONTACT US</a>
+                            </li>
+                            <li class="nav-item mobile-only-nav-item">
+                                <a href="{{ route('wishlist.index') }}" class="nav-link">WISHLIST @if ($wishlistCount > 0) ({{ $wishlistCount }}) @endif</a>
+                            </li>
+                            <li class="nav-item mobile-only-nav-item">
+                                <a href="{{ route('cart.index') }}" class="nav-link">CART @if ($cartCount > 0) ({{ $cartCount }}) @endif</a>
+                            </li>
+                            <li class="nav-item mobile-only-nav-item">
+                                <a href="{{ route('shop.index') }}" class="nav-link">ORDER NOW</a>
                             </li>
                         </ul>
                         <div class="navbar-option d-flex align-items-center">

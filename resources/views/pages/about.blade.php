@@ -30,15 +30,15 @@
                     <div class="about-image-grid">
                         <div class="about-image-grid-item">
                             <div class="about-image-grid-inner mb-30">
-                                <img src="{{ asset('assets/images/welcome-image-1.jpg') }}" alt="Max Kebab interior">
+                                <img src="{{ asset('assets/images/welcome/welcome-image-1.jpg') }}" alt="Max Kebab interior">
                             </div>
                             <div class="about-image-grid-inner mb-30">
-                                <img src="{{ asset('assets/images/welcome-image-2.jpg') }}" alt="Freshly prepared menu items">
+                                <img src="{{ asset('assets/images/welcome/welcome-image-2.jpg') }}" alt="Freshly prepared menu items">
                             </div>
                         </div>
                         <div class="about-image-grid-item">
                             <div class="about-image-grid-inner fluid-height">
-                                <img src="{{ asset('assets/images/welcome-image-3.jpg') }}" alt="Dining atmosphere">
+                                <img src="{{ asset('assets/images/welcome/welcome-image-3.jpg') }}" alt="Dining atmosphere">
                             </div>
                         </div>
                     </div>

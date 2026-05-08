@@ -65,7 +65,6 @@
                                                         @endif
                                                         <button type="submit" class="receipe-cart-button" aria-label="Add {{ $product['name'] }} to basket">
                                                             <i class="flaticon-supermarket-basket"></i>
-                                                            <i class="flaticon-supermarket-basket"></i>
                                                         </button>
                                                     </form>
                                                 </div>
