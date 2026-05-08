@@ -80,6 +80,15 @@ DB_CONNECTION=sqlite
 DB_DATABASE=/absolute/path/to/max-kebab/database/database.sqlite
 ```
 
+That `DB_DATABASE` value is a placeholder. Replace it with the real absolute path on your machine.
+
+Example on Windows:
+
+```env
+DB_CONNECTION=sqlite
+DB_DATABASE=C:/Users/your-username/path/to/max-kebab/database/database.sqlite
+```
+
 If `database/database.sqlite` does not exist on the new machine, create it:
 
 ```bash
@@ -185,6 +194,15 @@ Update `.env` to:
 ```env
 DB_CONNECTION=sqlite
 DB_DATABASE=/absolute/path/to/max-kebab/database/database.sqlite
+```
+
+That `DB_DATABASE` value is a placeholder. Replace it with the real absolute path on your machine.
+
+Example on Windows:
+
+```env
+DB_CONNECTION=sqlite
+DB_DATABASE=C:/Users/your-username/path/to/max-kebab/database/database.sqlite
 ```
 
 Create the SQLite file if needed:
