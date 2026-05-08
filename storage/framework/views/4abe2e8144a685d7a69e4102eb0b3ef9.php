@@ -34,7 +34,9 @@
                 <div class="col-sm-12 col-md-6 col-lg-4 order-1 order-lg-2">
                     <div class="footer-content-item text-start text-lg-center">
                         <div class="footer-logo">
-                            <a href="<?php echo e(route('home')); ?>" class="logo-text footer-logo-text">Max <span>Kebab</span></a>
+                            <a href="<?php echo e(route('home')); ?>" class="brand-logo-link brand-logo-link-footer">
+                                <img src="<?php echo e(asset($brand['logo'] ?? 'assets/images/maxkebab.png')); ?>" alt="<?php echo e($brand['name']); ?> logo" class="brand-logo brand-logo-footer">
+                            </a>
                         </div>
                         <ul class="footer-details footer-address">
                             <li><?php echo e($brand['address']); ?></li>

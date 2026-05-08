@@ -4,11 +4,12 @@ return [
     'brand' => [
         'name' => 'Max Kebab',
         'tagline' => 'Northampton\'s Premium Kebab Experience',
+        'logo' => 'assets/images/maxkebab.png',
         'phone' => '+44 7708 449419',
         'phone_display' => '+44 7708 449419',
         'address' => '53 Harborough Rd, Kingsthorpe, Northampton NN2 7SH, United Kingdom',
         'short_address' => 'Kingsthorpe, Northampton',
-        'map_url' => 'https://maps.google.com/?q=53+Harborough+Rd,+Kingsthorpe,+Northampton+NN2+7SH,+United+Kingdom',
+        'map_url' => 'https://maps.app.goo.gl/8WGTkPchjdBUfpNg8',
         'description' => 'Premium kebab restaurant in Northampton serving authentic grilled favourites, wraps, burgers, sides, salads, dine-in meals, takeaway, and delivery.',
         'keywords' => 'Max Kebab, Northampton kebab, premium kebab restaurant, delivery Northampton, takeaway Northampton, dine-in kebab, fresh grilled food',
         'service_modes' => 'Dine-in, takeaway & delivery',

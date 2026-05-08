@@ -34,7 +34,9 @@
                 <div class="col-sm-12 col-md-6 col-lg-4 order-1 order-lg-2">
                     <div class="footer-content-item text-start text-lg-center">
                         <div class="footer-logo">
-                            <a href="{{ route('home') }}" class="logo-text footer-logo-text">Max <span>Kebab</span></a>
+                            <a href="{{ route('home') }}" class="brand-logo-link brand-logo-link-footer">
+                                <img src="{{ asset($brand['logo'] ?? 'assets/images/maxkebab.png') }}" alt="{{ $brand['name'] }} logo" class="brand-logo brand-logo-footer">
+                            </a>
                         </div>
                         <ul class="footer-details footer-address">
                             <li>{{ $brand['address'] }}</li>

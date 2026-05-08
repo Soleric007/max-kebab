@@ -16,6 +16,40 @@ body {
     width: auto;
 }
 
+.navbar-brand.brand-logo-link,
+.mobile-nav .navbar-brand.brand-logo-link,
+.brand-logo-link {
+    align-items: center;
+    display: inline-flex;
+    flex: 0 0 auto;
+    max-width: none;
+    width: auto;
+}
+
+.brand-logo {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    width: auto;
+}
+
+.main-nav .brand-logo {
+    height: 86px;
+}
+
+.mobile-nav .brand-logo {
+    height: 58px;
+}
+
+.brand-logo-link-footer {
+    justify-content: center;
+}
+
+.brand-logo-footer {
+    height: 138px;
+}
+
 .navbar-option {
     display: flex;
 }
