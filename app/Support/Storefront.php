@@ -94,6 +94,7 @@ class Storefront
             ->sortByDesc('rating')
             ->take($limit)
             ->values();
+            
     }
 
     public function productsByCategory(string $category): Collection
