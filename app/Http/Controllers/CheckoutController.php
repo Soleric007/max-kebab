@@ -73,8 +73,8 @@ class CheckoutController extends Controller
                 $order->items()->create([
                     'product_slug' => $item['slug'],
                     'product_name' => $item['product']['name'],
-                    'selected_option' => $item['selected_option'],
-                    'product_price' => $item['product']['price'],
+                    'selected_option' => $item['selected_option_label'] ?? $item['selected_option'],
+                    'product_price' => $item['unit_price'],
                     'quantity' => $item['quantity'],
                     'line_total' => $item['line_total'],
                 ]);

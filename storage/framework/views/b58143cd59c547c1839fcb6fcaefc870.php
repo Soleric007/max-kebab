@@ -3,6 +3,7 @@
     $description = $product['description'];
     $showCta = false;
     $isWishlisted = app(\App\Support\Storefront::class)->inWishlist($product['slug']);
+    $defaultOption = $product['options'][0] ?? null;
 ?>
 
 
@@ -60,7 +61,10 @@
                                 <p>(<?php echo e($product['review_count']); ?> Reviews)</p>
                             </div>
                             <div class="product-details-price mb-20">
-                                <h4><?php echo e($product['price_formatted']); ?></h4>
+                                <h4 data-product-price><?php echo e($defaultOption['price_formatted'] ?? $product['price_formatted']); ?></h4>
+                                <?php if($product['has_variable_pricing']): ?>
+                                    <p class="cart-item-meta"><?php echo e($product['price_display']); ?> across available options</p>
+                                <?php endif; ?>
                             </div>
                             <div class="product-details-para mb-20">
                                 <p><?php echo e($product['description']); ?></p>
@@ -68,9 +72,17 @@
                             <?php if(! empty($product['options'])): ?>
                                 <div class="product-action-info mb-20">
                                     <h4>Options:</h4>
+                                    <p class="cart-item-meta mb-15"><?php echo e(collect($product['options'])->pluck('display')->join(' / ')); ?></p>
                                     <ul class="product-size-list" data-option-list>
                                         <?php $__currentLoopData = $product['options']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <li class="<?php echo e($loop->first ? 'active' : ''); ?>" data-option="<?php echo e($option); ?>"><?php echo e($option); ?></li>
+                                            <li
+                                                class="<?php echo e($loop->first ? 'active' : ''); ?>"
+                                                data-option="<?php echo e($option['value']); ?>"
+                                                data-option-price="<?php echo e($option['price_formatted']); ?>"
+                                            >
+                                                <?php echo e($option['label']); ?>
+
+                                            </li>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </ul>
                                 </div>
@@ -79,8 +91,8 @@
                                 <div class="d-flex flex-wrap align-items-center product-quantity">
                                     <form method="POST" action="<?php echo e(route('cart.store', $product['slug'])); ?>" class="product-add-form">
                                         <?php echo csrf_field(); ?>
-                                        <?php if(! empty($product['options'])): ?>
-                                            <input type="hidden" name="option" value="<?php echo e($product['options'][0]); ?>">
+                                        <?php if($defaultOption): ?>
+                                            <input type="hidden" name="option" value="<?php echo e($defaultOption['value']); ?>">
                                         <?php endif; ?>
                                         <button class="btn btn-icon product-quantity-item" type="submit">
                                             Add To Basket
@@ -173,7 +185,7 @@
                                     <div class="receipe-info">
                                         <h3><a href="<?php echo e(route('shop.show', $relatedProduct['slug'])); ?>"><?php echo e($relatedProduct['name']); ?></a></h3>
                                         <h4>
-                                            <?php echo e($relatedProduct['price_formatted']); ?>
+                                            <?php echo e($relatedProduct['price_display']); ?>
 
                                             <?php if(! empty($relatedProduct['compare_price_formatted'])): ?>
                                                 <del><?php echo e($relatedProduct['compare_price_formatted']); ?></del>
@@ -183,6 +195,9 @@
                                     <div class="receipe-cart receipe-cart-main">
                                         <form method="POST" action="<?php echo e(route('cart.store', $relatedProduct['slug'])); ?>">
                                             <?php echo csrf_field(); ?>
+                                            <?php if(! empty($relatedProduct['default_option'])): ?>
+                                                <input type="hidden" name="option" value="<?php echo e($relatedProduct['default_option']); ?>">
+                                            <?php endif; ?>
                                             <button type="submit" class="receipe-cart-button" aria-label="Add <?php echo e($relatedProduct['name']); ?> to basket">
                                                 <i class="flaticon-supermarket-basket"></i>
                                                 <i class="flaticon-supermarket-basket"></i>

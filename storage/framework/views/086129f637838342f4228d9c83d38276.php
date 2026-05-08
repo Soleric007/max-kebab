@@ -59,11 +59,11 @@
                                     <td class="td-product-name">
                                         <a href="<?php echo e(route('shop.show', $item['slug'])); ?>"><?php echo e($item['product']['name']); ?></a>
                                         <?php if($item['selected_option']): ?>
-                                            <span class="cart-item-meta">Option: <?php echo e($item['selected_option']); ?></span>
+                                            <span class="cart-item-meta">Option: <?php echo e($item['selected_option_label'] ?? $item['selected_option']); ?></span>
                                         <?php endif; ?>
                                     </td>
                                     <td><?php echo e($item['product']['sku']); ?></td>
-                                    <td><?php echo e($item['product']['price_formatted']); ?></td>
+                                    <td><?php echo e($item['unit_price_formatted']); ?></td>
                                     <td>
                                         <form action="<?php echo e(route('cart.update', $item['key'])); ?>" method="POST" class="cart-row-update">
                                             <?php echo csrf_field(); ?>

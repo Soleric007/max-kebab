@@ -127,7 +127,7 @@
                                         <h4 class="color-main">
                                             {{ $item['product']['name'] }} x{{ $item['quantity'] }}
                                             @if ($item['selected_option'])
-                                                <span class="cart-item-meta">Option: {{ $item['selected_option'] }}</span>
+                                                <span class="cart-item-meta">Option: {{ $item['selected_option_label'] ?? $item['selected_option'] }}</span>
                                             @endif
                                         </h4>
                                         <p>{{ $item['line_total_formatted'] }}</p>

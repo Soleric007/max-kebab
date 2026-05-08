@@ -18,14 +18,14 @@
                     <div class="cart-modal-content">
                         <h4><a href="<?php echo e(route('shop.show', $item['slug'])); ?>"><?php echo e($item['product']['name']); ?></a></h4>
                         <?php if($item['selected_option']): ?>
-                            <p class="cart-item-meta">Option: <?php echo e($item['selected_option']); ?></p>
+                            <p class="cart-item-meta">Option: <?php echo e($item['selected_option_label'] ?? $item['selected_option']); ?></p>
                         <?php endif; ?>
                         <div class="cart-modal-action">
                             <div class="cart-modal-action-item">
                                 <div class="cart-modal-quantity">
                                     <p><?php echo e($item['quantity']); ?></p>
                                     <p>x</p>
-                                    <p class="cart-quantity-price"><?php echo e($item['product']['price_formatted']); ?></p>
+                                    <p class="cart-quantity-price"><?php echo e($item['unit_price_formatted']); ?></p>
                                 </div>
                             </div>
                             <div class="cart-modal-action-item">

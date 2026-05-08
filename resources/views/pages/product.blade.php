@@ -3,6 +3,7 @@
     $description = $product['description'];
     $showCta = false;
     $isWishlisted = app(\App\Support\Storefront::class)->inWishlist($product['slug']);
+    $defaultOption = $product['options'][0] ?? null;
 @endphp
 
 @extends('layouts.app')
@@ -60,7 +61,10 @@
                                 <p>({{ $product['review_count'] }} Reviews)</p>
                             </div>
                             <div class="product-details-price mb-20">
-                                <h4>{{ $product['price_formatted'] }}</h4>
+                                <h4 data-product-price>{{ $defaultOption['price_formatted'] ?? $product['price_formatted'] }}</h4>
+                                @if ($product['has_variable_pricing'])
+                                    <p class="cart-item-meta">{{ $product['price_display'] }} across available options</p>
+                                @endif
                             </div>
                             <div class="product-details-para mb-20">
                                 <p>{{ $product['description'] }}</p>
@@ -68,9 +72,16 @@
                             @if (! empty($product['options']))
                                 <div class="product-action-info mb-20">
                                     <h4>Options:</h4>
+                                    <p class="cart-item-meta mb-15">{{ collect($product['options'])->pluck('display')->join(' / ') }}</p>
                                     <ul class="product-size-list" data-option-list>
                                         @foreach ($product['options'] as $option)
-                                            <li class="{{ $loop->first ? 'active' : '' }}" data-option="{{ $option }}">{{ $option }}</li>
+                                            <li
+                                                class="{{ $loop->first ? 'active' : '' }}"
+                                                data-option="{{ $option['value'] }}"
+                                                data-option-price="{{ $option['price_formatted'] }}"
+                                            >
+                                                {{ $option['label'] }}
+                                            </li>
                                         @endforeach
                                     </ul>
                                 </div>
@@ -79,8 +90,8 @@
                                 <div class="d-flex flex-wrap align-items-center product-quantity">
                                     <form method="POST" action="{{ route('cart.store', $product['slug']) }}" class="product-add-form">
                                         @csrf
-                                        @if (! empty($product['options']))
-                                            <input type="hidden" name="option" value="{{ $product['options'][0] }}">
+                                        @if ($defaultOption)
+                                            <input type="hidden" name="option" value="{{ $defaultOption['value'] }}">
                                         @endif
                                         <button class="btn btn-icon product-quantity-item" type="submit">
                                             Add To Basket
@@ -154,7 +165,7 @@
                                     <div class="receipe-info">
                                         <h3><a href="{{ route('shop.show', $relatedProduct['slug']) }}">{{ $relatedProduct['name'] }}</a></h3>
                                         <h4>
-                                            {{ $relatedProduct['price_formatted'] }}
+                                            {{ $relatedProduct['price_display'] }}
                                             @if (! empty($relatedProduct['compare_price_formatted']))
                                                 <del>{{ $relatedProduct['compare_price_formatted'] }}</del>
                                             @endif
@@ -163,6 +174,9 @@
                                     <div class="receipe-cart receipe-cart-main">
                                         <form method="POST" action="{{ route('cart.store', $relatedProduct['slug']) }}">
                                             @csrf
+                                            @if (! empty($relatedProduct['default_option']))
+                                                <input type="hidden" name="option" value="{{ $relatedProduct['default_option'] }}">
+                                            @endif
                                             <button type="submit" class="receipe-cart-button" aria-label="Add {{ $relatedProduct['name'] }} to basket">
                                                 <i class="flaticon-supermarket-basket"></i>
                                                 <i class="flaticon-supermarket-basket"></i>

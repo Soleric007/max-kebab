@@ -37,7 +37,7 @@
                         <div class="menu-main-details-item">
                             <div class="receipe-grid receipe-grid-three">
                                 @foreach (($menuSections[$category['slug']] ?? collect()) as $product)
-                                    <div class="receipe-item receipe-item-black pb-30 receipe-grid-item">
+                                    <div class="receipe-item receipe-item-black pb-30">
                                         <div class="receipe-item-inner">
                                             <div class="receipe-image">
                                                 <a href="{{ route('shop.show', $product['slug']) }}">
@@ -47,8 +47,11 @@
                                             <div class="receipe-content">
                                                 <div class="receipe-info">
                                                     <h3><a href="{{ route('shop.show', $product['slug']) }}">{{ $product['name'] }}</a></h3>
+                                                    @if (! empty($product['options']))
+                                                        <p class="receipe-option-copy">{{ collect($product['options'])->pluck('display')->join(' / ') }}</p>
+                                                    @endif
                                                     <h4>
-                                                        {{ $product['price_formatted'] }}
+                                                        {{ $product['price_display'] }}
                                                         @if (! empty($product['compare_price_formatted']))
                                                             <del>{{ $product['compare_price_formatted'] }}</del>
                                                         @endif
@@ -57,6 +60,9 @@
                                                 <div class="receipe-cart">
                                                     <form method="POST" action="{{ route('cart.store', $product['slug']) }}">
                                                         @csrf
+                                                        @if (! empty($product['default_option']))
+                                                            <input type="hidden" name="option" value="{{ $product['default_option'] }}">
+                                                        @endif
                                                         <button type="submit" class="receipe-cart-button" aria-label="Add {{ $product['name'] }} to basket">
                                                             <i class="flaticon-supermarket-basket"></i>
                                                             <i class="flaticon-supermarket-basket"></i>

@@ -42,6 +42,9 @@ unset($__defined_vars); ?>
             <div class="product-card-button">
                 <form method="POST" action="<?php echo e(route('cart.store', $product['slug'])); ?>">
                     <?php echo csrf_field(); ?>
+                    <?php if(! empty($product['default_option'])): ?>
+                        <input type="hidden" name="option" value="<?php echo e($product['default_option']); ?>">
+                    <?php endif; ?>
                     <button type="submit" class="btn btn-yellow">Add To Basket</button>
                 </form>
                 <?php if($isWishlisted): ?>
@@ -65,7 +68,7 @@ unset($__defined_vars); ?>
     <div class="product-card-content">
         <h3><a href="<?php echo e(route('shop.show', $product['slug'])); ?>"><?php echo e($product['name']); ?></a></h3>
         <h4 class="product-price">
-            <?php echo e($product['price_formatted']); ?>
+            <?php echo e($product['price_display']); ?>
 
             <?php if(! empty($product['compare_price_formatted'])): ?>
                 <small><?php echo e($product['compare_price_formatted']); ?></small>

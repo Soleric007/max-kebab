@@ -27,9 +27,15 @@
                                 <div class="menu-details-carousel-item menu-details-carousel-black">
                                     <h3><?php echo e($product['name']); ?></h3>
                                     <p><?php echo e($product['short_description']); ?></p>
-                                    <h4 class="menu-price"><?php echo e($product['price_formatted']); ?></h4>
+                                    <?php if(! empty($product['options'])): ?>
+                                        <p class="menu-option-copy"><?php echo e(collect($product['options'])->pluck('display')->join(' / ')); ?></p>
+                                    <?php endif; ?>
+                                    <h4 class="menu-price"><?php echo e($product['price_display']); ?></h4>
                                     <form method="POST" action="<?php echo e(route('cart.store', $product['slug'])); ?>">
                                         <?php echo csrf_field(); ?>
+                                        <?php if(! empty($product['default_option'])): ?>
+                                            <input type="hidden" name="option" value="<?php echo e($product['default_option']); ?>">
+                                        <?php endif; ?>
                                         <button type="submit" class="btn btn-yellow">
                                             Add To Basket <i class="flaticon-shopping-cart-black-shape"></i>
                                         </button>

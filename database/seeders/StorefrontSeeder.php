@@ -57,5 +57,17 @@ class StorefrontSeeder extends Seeder
                 ]
             );
         });
+
+        if ($categories->isNotEmpty()) {
+            Category::query()
+                ->whereNotIn('slug', $categories->pluck('slug'))
+                ->update(['is_active' => false]);
+        }
+
+        if ($products->isNotEmpty()) {
+            Product::query()
+                ->whereNotIn('slug', $products->pluck('slug'))
+                ->update(['is_active' => false]);
+        }
     }
 }

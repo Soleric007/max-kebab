@@ -118,7 +118,7 @@
                                     </div>
                                     <div class="sidebar-recent-content">
                                         <h3><a href="<?php echo e(route('shop.show', $product['slug'])); ?>"><?php echo e($product['name']); ?></a></h3>
-                                        <h4 class="product-price"><?php echo e($product['price_formatted']); ?></h4>
+                                        <h4 class="product-price"><?php echo e($product['price_display']); ?></h4>
                                     </div>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

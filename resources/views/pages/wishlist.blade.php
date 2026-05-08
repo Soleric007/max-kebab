@@ -48,10 +48,13 @@
                                     </td>
                                     <td class="td-product-name"><a href="{{ route('shop.show', $product['slug']) }}">{{ $product['name'] }}</a></td>
                                     <td>{{ $product['sku'] }}</td>
-                                    <td>{{ $product['price_formatted'] }}</td>
+                                    <td>{{ $product['price_display'] }}</td>
                                     <td>
                                         <form action="{{ route('cart.store', $product['slug']) }}" method="POST">
                                             @csrf
+                                            @if (! empty($product['default_option']))
+                                                <input type="hidden" name="option" value="{{ $product['default_option'] }}">
+                                            @endif
                                             <button type="submit" class="btn">Add To Basket <i class="flaticon-shopping-cart-black-shape"></i></button>
                                         </form>
                                     </td>

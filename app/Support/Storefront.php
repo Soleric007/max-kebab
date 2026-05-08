@@ -5,8 +5,8 @@ namespace App\Support;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -55,6 +55,7 @@ class Storefront
         return $this->categoriesCache = collect(config('maxkebab.categories', []))
             ->map(function (array $category) use ($products) {
                 $category['count'] = $products->where('category', $category['slug'])->count();
+
                 return $category;
             });
     }
@@ -75,14 +76,7 @@ class Storefront
         }
 
         return $this->productsCache = collect(config('maxkebab.products', []))
-            ->map(function (array $product) {
-                $product['price_formatted'] = $this->money($product['price']);
-                $product['compare_price_formatted'] = isset($product['compare_price'])
-                    ? $this->money($product['compare_price'])
-                    : null;
-
-                return $product;
-            });
+            ->map(fn (array $product) => $this->enrichProduct($product));
     }
 
     public function featuredProducts(int $limit = 6): Collection
@@ -147,15 +141,20 @@ class Storefront
 
                 $quantity = max(1, (int) ($item['quantity'] ?? 1));
                 $selectedOption = $this->normalizeSelectedOption($product, $item['selected_option'] ?? null);
+                $selectedOptionData = $this->selectedOptionData($product, $selectedOption);
+                $unitPrice = $selectedOptionData['price'] ?? $product['price'];
 
                 return [
                     'key' => $key,
                     'slug' => $slug,
                     'product' => $product,
                     'selected_option' => $selectedOption,
+                    'selected_option_label' => $selectedOptionData['label'] ?? null,
                     'quantity' => $quantity,
-                    'line_total' => round($product['price'] * $quantity, 2),
-                    'line_total_formatted' => $this->money($product['price'] * $quantity),
+                    'unit_price' => $unitPrice,
+                    'unit_price_formatted' => $this->money($unitPrice),
+                    'line_total' => round($unitPrice * $quantity, 2),
+                    'line_total_formatted' => $this->money($unitPrice * $quantity),
                 ];
             })
             ->filter()
@@ -288,31 +287,117 @@ class Storefront
 
     private function mapProduct(Product $product): array
     {
-        $price = (float) $product->price;
-        $comparePrice = $product->compare_price !== null ? (float) $product->compare_price : null;
         $categorySlug = $product->category?->slug ?? 'menu';
 
-        return [
+        return $this->enrichProduct([
             'id' => $product->id,
             'slug' => $product->slug,
             'sku' => $product->sku,
             'name' => $product->name,
             'category' => $categorySlug,
             'category_name' => $product->category?->name ?? Str::headline(str_replace('-', ' ', $categorySlug)),
-            'price' => $price,
-            'compare_price' => $comparePrice,
+            'price' => (float) $product->price,
+            'compare_price' => $product->compare_price !== null ? (float) $product->compare_price : null,
             'image' => $product->image,
-            'gallery' => collect($product->gallery)->filter()->values()->all() ?: [$product->image],
+            'gallery' => $product->gallery ?? [$product->image],
             'badge' => $product->badge,
             'featured' => (bool) $product->featured,
             'rating' => (float) $product->rating,
             'review_count' => (int) $product->review_count,
-            'options' => collect($product->options)->filter()->values()->all(),
+            'options' => $product->options ?? [],
             'description' => $product->description,
             'short_description' => $product->short_description,
+        ]);
+    }
+
+    private function enrichProduct(array $product): array
+    {
+        $categorySlug = $product['category'] ?? 'menu';
+        $image = $product['image'] ?? null;
+        $gallery = collect($product['gallery'] ?? [$image])
+            ->filter()
+            ->values()
+            ->all();
+        $price = isset($product['price']) ? round((float) $product['price'], 2) : 0.0;
+        $comparePrice = array_key_exists('compare_price', $product) && $product['compare_price'] !== null
+            ? round((float) $product['compare_price'], 2)
+            : null;
+        $options = $this->normalizeOptions($product['options'] ?? [], $price);
+        $optionPrices = collect($options)
+            ->pluck('price')
+            ->filter(fn ($optionPrice) => $optionPrice !== null)
+            ->map(fn ($optionPrice) => round((float) $optionPrice, 2))
+            ->values();
+
+        if ($optionPrices->isNotEmpty()) {
+            $price = (float) $optionPrices->min();
+        }
+
+        $priceMax = $optionPrices->isNotEmpty()
+            ? (float) $optionPrices->max()
+            : $price;
+        $hasVariablePricing = $optionPrices->unique()->count() > 1;
+
+        return [
+            'id' => $product['id'] ?? null,
+            'slug' => $product['slug'],
+            'sku' => $product['sku'] ?? null,
+            'name' => $product['name'],
+            'category' => $categorySlug,
+            'category_name' => $product['category_name'] ?? Str::headline(str_replace('-', ' ', $categorySlug)),
+            'price' => $price,
+            'price_max' => $priceMax,
+            'compare_price' => $comparePrice,
+            'image' => $image ?: ($gallery[0] ?? ''),
+            'gallery' => $gallery ?: [$image],
+            'badge' => $product['badge'] ?? null,
+            'featured' => (bool) ($product['featured'] ?? false),
+            'rating' => isset($product['rating']) ? (float) $product['rating'] : 5.0,
+            'review_count' => (int) ($product['review_count'] ?? 0),
+            'options' => $options,
+            'default_option' => $options[0]['value'] ?? null,
+            'has_variable_pricing' => $hasVariablePricing,
+            'description' => $product['description'] ?? '',
+            'short_description' => $product['short_description'] ?? '',
             'price_formatted' => $this->money($price),
+            'price_display' => $hasVariablePricing ? 'From '.$this->money($price) : $this->money($price),
             'compare_price_formatted' => $comparePrice !== null ? $this->money($comparePrice) : null,
         ];
+    }
+
+    private function normalizeOptions(array $options, float $fallbackPrice): array
+    {
+        return collect($options)
+            ->map(function ($option) use ($fallbackPrice) {
+                if (is_array($option)) {
+                    $label = trim((string) ($option['label'] ?? $option['value'] ?? $option['name'] ?? ''));
+                    $value = trim((string) ($option['value'] ?? $label));
+                    $price = array_key_exists('price', $option) && $option['price'] !== null
+                        ? round((float) $option['price'], 2)
+                        : $fallbackPrice;
+                    $explicitPrice = array_key_exists('price', $option) && $option['price'] !== null;
+                } else {
+                    $label = trim((string) $option);
+                    $value = $label;
+                    $price = $fallbackPrice;
+                    $explicitPrice = false;
+                }
+
+                if ($label === '') {
+                    return null;
+                }
+
+                return [
+                    'label' => $label,
+                    'value' => $value !== '' ? $value : $label,
+                    'price' => $price,
+                    'price_formatted' => $this->money($price),
+                    'display' => $explicitPrice ? $label.' - '.$this->money($price) : $label,
+                ];
+            })
+            ->filter()
+            ->values()
+            ->all();
     }
 
     private function catalogTablesReady(): bool
@@ -329,12 +414,33 @@ class Storefront
 
     private function normalizeSelectedOption(array $product, ?string $selectedOption): ?string
     {
-        if (blank($selectedOption) || empty($product['options'])) {
+        if (empty($product['options'])) {
             return null;
         }
 
-        return collect($product['options'])
-            ->first(fn (string $option) => strcasecmp($option, $selectedOption) === 0);
+        return $this->selectedOptionData($product, $selectedOption)['value'] ?? null;
+    }
+
+    private function selectedOptionData(array $product, ?string $selectedOption): ?array
+    {
+        if (empty($product['options'])) {
+            return null;
+        }
+
+        $optionValue = blank($selectedOption)
+            ? ($product['default_option'] ?? null)
+            : $selectedOption;
+
+        $matchedOption = collect($product['options'])->first(function (array $option) use ($optionValue) {
+            return strcasecmp((string) $option['value'], (string) $optionValue) === 0
+                || strcasecmp((string) $option['label'], (string) $optionValue) === 0;
+        });
+
+        if ($matchedOption) {
+            return $matchedOption;
+        }
+
+        return $product['options'][0] ?? null;
     }
 
     private function cartKey(string $slug, ?string $selectedOption): string

@@ -191,7 +191,7 @@ unset($__errorArgs, $__bag); ?>
                                             <?php echo e($item['product']['name']); ?> x<?php echo e($item['quantity']); ?>
 
                                             <?php if($item['selected_option']): ?>
-                                                <span class="cart-item-meta">Option: <?php echo e($item['selected_option']); ?></span>
+                                                <span class="cart-item-meta">Option: <?php echo e($item['selected_option_label'] ?? $item['selected_option']); ?></span>
                                             <?php endif; ?>
                                         </h4>
                                         <p><?php echo e($item['line_total_formatted']); ?></p>

@@ -736,3 +736,15 @@ body {
         transform: translateY(18px) !important;
     }
 }
+
+.menu-option-copy,
+.receipe-option-copy {
+    color: rgba(255, 255, 255, 0.66);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.product-details-price .cart-item-meta {
+    margin-top: 10px;
+}

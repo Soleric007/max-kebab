@@ -59,11 +59,11 @@
                                     <td class="td-product-name">
                                         <a href="{{ route('shop.show', $item['slug']) }}">{{ $item['product']['name'] }}</a>
                                         @if ($item['selected_option'])
-                                            <span class="cart-item-meta">Option: {{ $item['selected_option'] }}</span>
+                                            <span class="cart-item-meta">Option: {{ $item['selected_option_label'] ?? $item['selected_option'] }}</span>
                                         @endif
                                     </td>
                                     <td>{{ $item['product']['sku'] }}</td>
-                                    <td>{{ $item['product']['price_formatted'] }}</td>
+                                    <td>{{ $item['unit_price_formatted'] }}</td>
                                     <td>
                                         <form action="{{ route('cart.update', $item['key']) }}" method="POST" class="cart-row-update">
                                             @csrf

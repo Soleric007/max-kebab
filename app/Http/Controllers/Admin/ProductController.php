@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
 class ProductController extends Controller
@@ -138,13 +138,14 @@ class ProductController extends Controller
             ->concat($this->parseList($validated['gallery_input'] ?? null))
             ->unique()
             ->values();
+        $options = $this->parseOptions($validated['options_input'] ?? null);
 
         return [
             'category_id' => $validated['category_id'],
             'name' => $validated['name'],
             'slug' => $slug,
             'sku' => $sku,
-            'price' => $validated['price'],
+            'price' => $this->minimumOptionPrice($options, (float) $validated['price']),
             'compare_price' => $validated['compare_price'] ?? null,
             'image' => $primaryImage,
             'gallery' => $gallery->isNotEmpty() ? $gallery->all() : [$primaryImage],
@@ -152,7 +153,7 @@ class ProductController extends Controller
             'featured' => $request->boolean('featured'),
             'rating' => $validated['rating'] ?? 5,
             'review_count' => $validated['review_count'] ?? 0,
-            'options' => $this->parseList($validated['options_input'] ?? null)->all(),
+            'options' => $options->all(),
             'short_description' => $validated['short_description'],
             'description' => $validated['description'],
             'sort_order' => $validated['sort_order'] ?? 0,
@@ -166,6 +167,50 @@ class ProductController extends Controller
             ->map(fn (string $item) => trim($item))
             ->filter()
             ->values();
+    }
+
+    private function parseOptions(?string $value): Collection
+    {
+        return collect(preg_split('/\r\n|\r|\n/', (string) $value))
+            ->map(fn (string $item) => trim($item))
+            ->filter()
+            ->map(function (string $item) {
+                if (! str_contains($item, '|')) {
+                    return $item;
+                }
+
+                [$label, $price] = array_pad(explode('|', $item, 2), 2, null);
+                $label = trim($label);
+                $price = preg_replace('/[^0-9.]+/', '', (string) $price);
+
+                if ($label === '') {
+                    return null;
+                }
+
+                return [
+                    'label' => $label,
+                    'value' => $label,
+                    'price' => $price !== '' ? round((float) $price, 2) : null,
+                ];
+            })
+            ->filter()
+            ->values();
+    }
+
+    private function minimumOptionPrice(Collection $options, float $fallback): float
+    {
+        $optionPrice = $options
+            ->map(function ($option) {
+                if (! is_array($option) || ! array_key_exists('price', $option) || $option['price'] === null) {
+                    return null;
+                }
+
+                return (float) $option['price'];
+            })
+            ->filter(fn ($price) => $price !== null)
+            ->min();
+
+        return $optionPrice !== null ? round((float) $optionPrice, 2) : $fallback;
     }
 
     private function resolvePrimaryImage(array $validated, Request $request, ?Product $product = null): string

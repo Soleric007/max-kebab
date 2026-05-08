@@ -27,9 +27,15 @@
                                 <div class="menu-details-carousel-item menu-details-carousel-black">
                                     <h3>{{ $product['name'] }}</h3>
                                     <p>{{ $product['short_description'] }}</p>
-                                    <h4 class="menu-price">{{ $product['price_formatted'] }}</h4>
+                                    @if (! empty($product['options']))
+                                        <p class="menu-option-copy">{{ collect($product['options'])->pluck('display')->join(' / ') }}</p>
+                                    @endif
+                                    <h4 class="menu-price">{{ $product['price_display'] }}</h4>
                                     <form method="POST" action="{{ route('cart.store', $product['slug']) }}">
                                         @csrf
+                                        @if (! empty($product['default_option']))
+                                            <input type="hidden" name="option" value="{{ $product['default_option'] }}">
+                                        @endif
                                         <button type="submit" class="btn btn-yellow">
                                             Add To Basket <i class="flaticon-shopping-cart-black-shape"></i>
                                         </button>

@@ -206,13 +206,29 @@ jQuery(function ($) {
 
     $('.product-size-list li').on('click', function () {
         var option = $(this).data('option');
+        var optionPrice = $(this).data('optionPrice');
+        var caption = $(this).closest('.product-details-caption');
+
         $(this).addClass('active').siblings().removeClass('active');
 
         if (option) {
-            $(this)
-                .closest('.product-details-caption')
-                .find('input[name="option"]')
-                .val(option);
+            caption.find('input[name="option"]').val(option);
+        }
+
+        if (optionPrice) {
+            caption.find('[data-product-price]').text(optionPrice);
+        }
+    });
+
+    $('[data-option-list]').each(function () {
+        var firstOption = $(this).find('li.active').first();
+
+        if (!firstOption.length) {
+            firstOption = $(this).find('li').first().addClass('active');
+        }
+
+        if (firstOption.length) {
+            firstOption.trigger('click');
         }
     });
 

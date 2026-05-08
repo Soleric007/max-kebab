@@ -48,10 +48,13 @@
                                     </td>
                                     <td class="td-product-name"><a href="<?php echo e(route('shop.show', $product['slug'])); ?>"><?php echo e($product['name']); ?></a></td>
                                     <td><?php echo e($product['sku']); ?></td>
-                                    <td><?php echo e($product['price_formatted']); ?></td>
+                                    <td><?php echo e($product['price_display']); ?></td>
                                     <td>
                                         <form action="<?php echo e(route('cart.store', $product['slug'])); ?>" method="POST">
                                             <?php echo csrf_field(); ?>
+                                            <?php if(! empty($product['default_option'])): ?>
+                                                <input type="hidden" name="option" value="<?php echo e($product['default_option']); ?>">
+                                            <?php endif; ?>
                                             <button type="submit" class="btn">Add To Basket <i class="flaticon-shopping-cart-black-shape"></i></button>
                                         </form>
                                     </td>

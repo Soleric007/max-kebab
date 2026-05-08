@@ -37,7 +37,7 @@
                         <div class="menu-main-details-item">
                             <div class="receipe-grid receipe-grid-three">
                                 <?php $__currentLoopData = ($menuSections[$category['slug']] ?? collect()); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="receipe-item receipe-item-black pb-30 receipe-grid-item">
+                                    <div class="receipe-item receipe-item-black pb-30">
                                         <div class="receipe-item-inner">
                                             <div class="receipe-image">
                                                 <a href="<?php echo e(route('shop.show', $product['slug'])); ?>">
@@ -47,8 +47,11 @@
                                             <div class="receipe-content">
                                                 <div class="receipe-info">
                                                     <h3><a href="<?php echo e(route('shop.show', $product['slug'])); ?>"><?php echo e($product['name']); ?></a></h3>
+                                                    <?php if(! empty($product['options'])): ?>
+                                                        <p class="receipe-option-copy"><?php echo e(collect($product['options'])->pluck('display')->join(' / ')); ?></p>
+                                                    <?php endif; ?>
                                                     <h4>
-                                                        <?php echo e($product['price_formatted']); ?>
+                                                        <?php echo e($product['price_display']); ?>
 
                                                         <?php if(! empty($product['compare_price_formatted'])): ?>
                                                             <del><?php echo e($product['compare_price_formatted']); ?></del>
@@ -58,6 +61,9 @@
                                                 <div class="receipe-cart">
                                                     <form method="POST" action="<?php echo e(route('cart.store', $product['slug'])); ?>">
                                                         <?php echo csrf_field(); ?>
+                                                        <?php if(! empty($product['default_option'])): ?>
+                                                            <input type="hidden" name="option" value="<?php echo e($product['default_option']); ?>">
+                                                        <?php endif; ?>
                                                         <button type="submit" class="receipe-cart-button" aria-label="Add <?php echo e($product['name']); ?> to basket">
                                                             <i class="flaticon-supermarket-basket"></i>
                                                             <i class="flaticon-supermarket-basket"></i>

@@ -99,7 +99,7 @@
                                     </div>
                                     <div class="sidebar-recent-content">
                                         <h3><a href="{{ route('shop.show', $product['slug']) }}">{{ $product['name'] }}</a></h3>
-                                        <h4 class="product-price">{{ $product['price_formatted'] }}</h4>
+                                        <h4 class="product-price">{{ $product['price_display'] }}</h4>
                                     </div>
                                 </div>
                             @endforeach

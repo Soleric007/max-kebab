@@ -1,7 +1,26 @@
 <?php
     $editing = isset($product) && $product->exists;
     $galleryValue = old('gallery_input', $editing ? implode(PHP_EOL, $product->gallery ?? []) : '');
-    $optionsValue = old('options_input', $editing ? implode(PHP_EOL, $product->options ?? []) : '');
+    $optionsValue = old('options_input', $editing
+        ? collect($product->options ?? [])
+            ->map(function ($option) {
+                if (is_array($option)) {
+                    $label = trim((string) ($option['label'] ?? $option['value'] ?? ''));
+
+                    if ($label === '') {
+                        return null;
+                    }
+
+                    return array_key_exists('price', $option) && $option['price'] !== null
+                        ? $label.'|'.number_format((float) $option['price'], 2, '.', '')
+                        : $label;
+                }
+
+                return trim((string) $option);
+            })
+            ->filter()
+            ->implode(PHP_EOL)
+        : '');
     $primaryImageValue = old('image', $product->image ?? '');
     $existingGallery = collect(old('gallery_input')
         ? preg_split('/[\r\n,]+/', old('gallery_input'))
@@ -45,8 +64,9 @@
             <input type="text" name="slug" class="admin-input" value="<?php echo e(old('slug', $product->slug ?? '')); ?>" placeholder="auto-generated if blank">
         </div>
         <div>
-            <label class="admin-label">Price</label>
+            <label class="admin-label">Base Price</label>
             <input type="number" step="0.01" min="0" name="price" class="admin-input" value="<?php echo e(old('price', $product->price ?? '')); ?>" required>
+            <p class="admin-helper">For products with option pricing, this auto-syncs to the lowest option price when saved.</p>
         </div>
         <div>
             <label class="admin-label">Compare Price</label>
@@ -133,7 +153,8 @@ unset($__errorArgs, $__bag); ?>
         </div>
         <div>
             <label class="admin-label">Options</label>
-            <textarea name="options_input" class="admin-textarea" rows="4" placeholder="One option per line"><?php echo e($optionsValue); ?></textarea>
+            <textarea name="options_input" class="admin-textarea" rows="4" placeholder="Small|10.00&#10;Large|12.00"><?php echo e($optionsValue); ?></textarea>
+            <p class="admin-helper">Use one option per line. Add a price with `Option|Price` when the product has size or portion pricing.</p>
         </div>
     </div>
 
